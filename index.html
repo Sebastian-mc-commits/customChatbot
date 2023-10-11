@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SenaBot</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <!--https://codepen.io/roborich/pen/AmqdWE-->
+    <section class="chatbotContainer">
+      <div class="chatbotAvatar">
+        <img
+          src="./assets/sena.png"
+          alt="Avatar"
+        />
+        <h3>SenaBot</h3>
+      </div>
+      <form class="chatbotModal" id="getInput">
+        <div class="listMessages" id="listMessages">
+          <p class="userMessage">Hello</p>
+          <p class="botMessage">
+            ¡Hola! Soy SenaBot 👋🏼, el contacto digital de MADERABLE, estoy acá
+            para hacerte la vida más fácil. Puedo brindarte información y
+            ayudarte con varios trámites. Para PQRSF ingresa al portal dando
+            clic
+            <a href="#">Aqui</a>
+          </p>
+          <p class="botMessage">
+            Para continuar, revisa nuestra política de privacidad, si deseas
+            conocerlos da clic <button>Aqui</button>
+          </p>
+        </div>
+
+        <div class="userInput" id="formInputWrapper">
+          <input
+            type="text"
+            id="onChangeText"
+            name="question"
+            placeholder="Preguntar..."
+            disabled
+          />
+          <input type="submit" value="Enviar" class="onSend" />
+          <button data-type="onClean" disabled class="onClean">Limpiar</button>
+        </div>
+      </form>
+    </section>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
