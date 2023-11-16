@@ -1,8 +1,8 @@
-
 <?php
-
-class InitDb {
-    private $defaultDatabase = "chatbot";
+namespace Db;
+class InitDb
+{
+    private $defaultDatabase = "chat_sena";
     private $host = 'localhost';
     private $username = 'root';
     private $password = '98757682';
@@ -16,10 +16,11 @@ class InitDb {
         }
 
         $this->database = $database;
-        $this->instance = new mysqli($this->host, $this->username, $this->password, $this->database);
+        $this->instance = new \mysqli($this->host, $this->username, $this->password, $this->database);
     }
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $conn = $this->instance;
 
         if ($conn->connect_error) {
@@ -27,5 +28,9 @@ class InitDb {
         }
 
         return $conn;
+    }
+
+    public function closeConnection () {
+        $this->instance->close();
     }
 }

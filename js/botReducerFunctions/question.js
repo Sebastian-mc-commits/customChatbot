@@ -1,66 +1,95 @@
-export default async function ({ target, utils }, userInputValue, useShake = true, params = {}) {
-    if (!this._chatBotTypeSelected) return
-    else if (userInputValue.length < 3 && useShake) {
+export default async function ({ target, context, utils }, userInputValue, useShake = true, params = {}) {
+
+    console.log(this._isPriorityOfTypesSatisfied())
+    if (!this._isPriorityOfTypesSatisfied()) return
+    else if (!userInputValue.length && useShake) {
         this._shakeElement(target, {
             onShakeCallback: target => target.disabled = true,
             onAfterShakeCallback: target => target.disabled = false
         })
         return
     }
+    const { value, name, redirect, methodName } = this._getHighestPriorityTypeValue()
 
     userInputValue = userInputValue.trim()
+    if (redirect) {
+        return context()[methodName]({
+            userInputValue,
+            ...params
+        })
+    }
 
     const {
         user,
-        normalBotResponse,
-        reloadBotResponse
     } = this._getMessageElementHTML()
-    const {
-        getChatBotAnswer
-    } = this._apis()
 
     this._listMessages.insertAdjacentHTML("beforeend", user(userInputValue));
 
-    this._listMessages.scrollTop = this._listMessages.scrollHeight
+    if ("value" in target) target.value = "";
 
-    target.value = "";
-    const typeSelected = this._chatBotTypeSelected
+    this.countMessageIteration += 1
 
-    const {
-        error,
-        request,
-        response = {}
-    } = await getChatBotAnswer({
-        chatBotType: typeSelected,
-        userQuestion: userInputValue,
+    const { isResponded } = await context().botResponse({
+        isByFetch: true,
+        inCaseOfError: () => {
+            const {
+                messages,
+                notFoundMessage
+            } = this._randomBotMessages()
+
+            this._globalChat.chatBot = []
+            return this._getRandomElement(messages, notFoundMessage)
+        },
+        input: userInputValue,
+        useReloadType: true,
+        useDisplayOptions: this._TYPES.BY_TYPES === name,
+        respondInCaseOfError: this.countMessageIteration < 3,
+        useAPI: useAPIMethod(() => this, this._apis(), {
+            chatBotType: value,
+            userQuestion: userInputValue,
+            ...params
+        })[name],
         ...params
-    });
+    })
 
-    if (!request?.ok || error || !response?.response?.length) {
-        const {
-            messages,
-            notFoundMessage
-        } = this._randomBotMessages()
+    if (!isResponded && this.countMessageIteration >= 3) {
+        await context().botResponse({
+            isByFetch: false,
+            input: `Lamentamos no poder responder a tus preguntas en este momento. 
+            Si lo prefieres, puedes consultar a un asesor haciendo clic en: ${utils().redirectHTML()} para 
+            obtener la información que necesitas.`,
+            useReloadType: false,
+            useDisplayOptions: true,
+        })
+    }
+    else if (this.countMessageIteration >= 3) {
+        this.countMessageIteration = 0
+    }
+}
 
-        const botNotFoundedMessage = this._getRandomElement(messages, notFoundMessage)
+const useAPIMethod = (context, {
+    getChatBotAnswer,
+    getResponseById
+}, {
+    chatBotType = null,
+    userQuestion = null,
+    id = null,
+    ...params
+}) => {
 
-        this._listMessages.insertAdjacentHTML("beforeend", normalBotResponse(botNotFoundedMessage));
-        this._globalChat.chatBot = []
-        return
-    };
+    return {
+        byTypes: async () => {
 
+            return await getChatBotAnswer({
+                chatBotType,
+                userQuestion,
+                ...params
+            })
+        },
 
-    const {
-        response: chatBotAnswer = {}
-    } = response;
+        byMainTree: async () => {
 
-    const {
-        response: answer = ""
-    } = chatBotAnswer[0]
-
-    this._listMessages.insertAdjacentHTML("beforeend", reloadBotResponse(answer));
-    const id = this._chatBotTypeSelected
-    this._listMessages.insertAdjacentHTML("beforeend", utils().displayMoreOptionsHTML(id));
-    this._storeChat("user", userInputValue)
-    this._storeChat("chatBot", answer)
+            return await getResponseById(id || chatBotType)
+        }
+    }
 }

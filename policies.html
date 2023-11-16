@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Politicas</title>
+</head>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+}
+
+.policy {
+    max-width: 800px;
+    margin: 5% auto 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 20px;
+}
+
+p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.button-group {
+    margin-top: 10px;
+}
+
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.yes-button {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.no-button {
+    background-color: #f44336;
+    color: #fff;
+}
+
+</style>
+<body>
+  
+  <main class="policy">
+    <h2>Politicas de uso y privaciadad</h2>
+    <ul>
+      <li>
+        La información que recopilamos y guardamos sobre ti, serán usada únicamente para conocer qué soluciones podemos brindarte, que se adapten correctamente a la situación que presentes con respecto a nuestros servicios y productos.
+      </li>
+      <li>
+        La empresa ROBLES S.A.S tendrá acceso de respaldo de las conversaciones que aquí se den, esto con el fin de contar con un archivo y poder llevar su caso, queja o solicitud de manera clara eficaz y correcta.
+      </li>
+      <li>La empresa ROBLES S.A.S no podrá publicar ni compartir la información obtenida a través de estas conversaciones con terceros.</li>
+      <li>La empresa ROBLES S.A.S no se hace cargo ni cumple garantía por daños y mal cuidado de los productos por parte de los clientes. </li>
+
+      <li>
+        <h2>¿Estás de acuerdo con nuestros Términos y condiciones?</h2>
+        <div>
+          <button class="yes-button" onclick="acceptPolicy(true)">Sí</button>
+          <button class="no-button" onclick="acceptPolicy(false)">No</button>
+        </div>
+      </li>
+    </ul>
+  </main>
+
+  <script>
+
+    function acceptPolicy (isAccepted) {
+      window.opener.onSubmitPolicies(isAccepted)
+    }
+  </script>
+</body>
+</html>

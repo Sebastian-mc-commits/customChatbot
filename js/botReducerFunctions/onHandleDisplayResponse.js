@@ -10,7 +10,7 @@ export default async function ({ event, target }) {
     const { getChatBotAnswerByTypeId } = this._apis()
     const { error, response } = await getChatBotAnswerByTypeId(id)
 
-    if (error) {
+    if (error || Array.from(response?.response || []).length === 0) {
         this._errorHandler("No se pudo obtener respuestas")
         return
     }
@@ -20,6 +20,7 @@ export default async function ({ event, target }) {
     const html = onSelectedStyle(iterateBy(responses, buttonMessage))
 
     this._insertBotMessage(html)
+    this.scrollIntoView()
 }
 
 const iterateBy = (array, stylesCallback) => {

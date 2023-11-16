@@ -1,7 +1,13 @@
 export default async function ({ event, target, utils }) {
     event.preventDefault()
     if (this._isOnSelectedTypePressed) return
-    this._onChangeText.disabled = false;
+    else if (!this._isPoliciesAccepted) {
+        alert("Debes aceptar términos y condiciones")
+        return
+    }
+    this.toggleViewChangeText({
+        enable: true
+    })
     const targetId = target?.dataset.id
 
     this._onChangeText.focus();
@@ -38,10 +44,24 @@ export default async function ({ event, target, utils }) {
 
     [
         reloadBotResponse(`Has seleccionado: ${target.textContent}`, "setElementBack"),
-        normalBotResponse(defaultMessage),
+        ...[!!defaultMessage ? normalBotResponse(defaultMessage) : []],
         utils().displayMoreOptionsHTML(id)
     ].forEach(insertBotMessage)
 
-    this._chatBotTypeSelected = targetId;
+    this._resetPriorities()
+    this._chatBotTypeSelected = {
+        ...this._chatBotTypeSelected,
+        [this._TYPES.TYPES]: {
+            ...this._chatBotTypeSelected[this._TYPES.TYPES],
+            value: targetId,
+            priority: 10
+        },
+        [this._TYPES.TREE_QUESTION]: {
+            ...this._chatBotTypeSelected[this._TYPES.TREE_QUESTION],
+            value: id
+        }
+    }
+
+    this.scrollIntoView()
     this._isOnSelectedTypePressed = true
 }

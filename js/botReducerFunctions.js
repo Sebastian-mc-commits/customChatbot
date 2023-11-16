@@ -4,7 +4,13 @@ import {
   question,
   refreshBotAnswer,
   botInputTypeResponse,
-  onHandleDisplayResponse
+  onHandleDisplayResponse,
+  termsAndConditionsHandler,
+  botResponse,
+  redirectVirtualContact,
+  handleUserQuestion,
+  handleStoreUserInput,
+  responseFilter
 } from "./botReducerFunctions/index.js"
 
 export default function reducer(target, event) {
@@ -26,19 +32,45 @@ export default function reducer(target, event) {
 
     onHandleDisplayOptions: setContext(onHandleDisplayResponse),
 
+    termsAndConditionsHandler: setContext(termsAndConditionsHandler),
+
+    botResponse: setContext(botResponse),
+
+    redirectVirtualContact: setContext(redirectVirtualContact),
+
+    handleUserQuestion: setContext(handleUserQuestion),
+
+    handleStoreUserInput: setContext(handleStoreUserInput),
+
+    responseFilter: setContext(responseFilter)
   }
 }
 
 function contextUtils() {
 
   return {
-    displayMoreOptionsHTML: (id) => {
+    displayMoreOptionsHTML: (id, {
+      datatype,
+      message = "Mostrar Opciones"
+    } = {
+        datatype: "onHandleDisplayOptions",
+        message: "Mostrar Opciones"
+      }) => {
       const {
         normalBotResponse,
         buttonMessage
       } = this._getMessageElementHTML()
 
-      return normalBotResponse(buttonMessage(id, "Mostrar Opciones", "onHandleDisplayOptions"))
-    }
+      return normalBotResponse(buttonMessage(id, message, datatype))
+    },
+
+    redirectHTML: () => {
+      const {
+        buttonMessage
+      } = this._getMessageElementHTML()
+
+      return buttonMessage(null, "Contactar", "redirectVirtualContact")
+    },
+
   }
 }

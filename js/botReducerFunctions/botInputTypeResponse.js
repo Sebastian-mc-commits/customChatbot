@@ -3,7 +3,8 @@ export default function ({ context, target, event }) {
     target.parentElement.remove()
     const selectedQuestion = target.textContent
 
-    context().question(selectedQuestion, {
-        chatBotTypeAvoid: [""]
+    context().question(selectedQuestion, true, {
+        chatBotTypeAvoid: [""],
+        id: target?.dataset?.id || null
     })
 }

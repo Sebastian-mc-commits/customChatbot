@@ -4,7 +4,9 @@ export default function ({ target, context }) {
   const onRefreshReducer = {
     setElementBack: async () => {
       await this._contentLoaded()
-      this._onChangeText.disabled = true
+      this.toggleViewChangeText({
+        enable: false
+      })
     }
   }
 
@@ -14,14 +16,15 @@ export default function ({ target, context }) {
     callback()
     target.parentNode.remove()
     this._isOnSelectedTypePressed = false
-    return
+  }
+  else {
+    const {
+      user
+    } = this._getLastMessagesBetween()
+    context().question(user, true, {
+      chatBotTypeAvoid: this._globalChat.chatBot
+    })
   }
 
-  const {
-    user
-  } = this._getLastMessagesBetween()
-  context().question(user, true, {
-    chatBotTypeAvoid: this._globalChat.chatBot
-  })
-
+  this.scrollIntoView()
 }
