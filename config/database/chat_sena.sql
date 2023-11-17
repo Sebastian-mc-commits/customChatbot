@@ -110,6 +110,11 @@ VALUES
 		"No comprendo tu solicitud.
     Te contactaremos pronto con un asesor.",
 		0
+	),
+	(
+		"Escribe brevemente aquí tu sugerencia:",
+		"En breve, serás redirigido/a a un asesor.",
+		0
 	);
 
 INSERT INTO
@@ -759,3 +764,13 @@ WHERE
 	OR responseContent LIKE "%diseño inadecuado%"
 	OR responseContent LIKE "%nunca llego el%"
 	OR responseContent LIKE "%No realizo el soporte%";
+
+UPDATE
+	response
+SET
+	responseTitleId = 5
+WHERE
+	responseContent LIKE "%el chatbot no dio solucion a mi problema%"
+	OR responseContent LIKE "%No me genero solucion a la%"
+	OR responseContent LIKE "%tengo mas dudas y no encuentro solucion en el chat%"
+	OR responseContent LIKE "%no me siento comodo hablando con el chat%";
