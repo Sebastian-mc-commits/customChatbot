@@ -1,6 +1,5 @@
 export default async function ({ target, context, utils }, userInputValue, useShake = true, params = {}) {
 
-    console.log(this._isPriorityOfTypesSatisfied())
     if (!this._isPriorityOfTypesSatisfied()) return
     else if (!userInputValue.length && useShake) {
         this._shakeElement(this._onChangeText, {

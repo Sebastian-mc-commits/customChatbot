@@ -18,7 +18,6 @@ export default async function ({ context }, idField, {
   } = this._getMessageElementHTML()
 
   if (isMainTree == 1) {
-    console.log("IS tree")
     if (render) {
       value = onSelectedStyle(buttonMessage(idField, responseContent, "handleUserQuestion"))
     }

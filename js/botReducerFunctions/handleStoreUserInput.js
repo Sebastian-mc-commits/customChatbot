@@ -31,7 +31,7 @@ export default async function ({ context, utils }, { userInputValue }) {
         value: null,
         priority: 10
       }
-    }, 2000)
+    }, 1000)
   }
 
   else {
@@ -40,7 +40,6 @@ export default async function ({ context, utils }, { userInputValue }) {
       priority: 10
     }
     const { value } = this._getHighestPriorityTypeValue()
-    console.log("Good options")
 
     this.insertInContent(utils().displayMoreOptionsHTML(value))
   }

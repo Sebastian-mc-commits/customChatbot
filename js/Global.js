@@ -5,8 +5,6 @@ export default class Global {
     let response = null
     let error = false
 
-    console.log("url")
-    console.log(url)
     try {
       request = await fetch(url, params)
 
@@ -14,7 +12,6 @@ export default class Global {
         response = await request.json()
       }
     } catch (e) {
-      console.log("Error: " + e.message)
       error = true
     }
 
