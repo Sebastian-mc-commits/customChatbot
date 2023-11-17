@@ -155,7 +155,8 @@ button {
   gap: 0.5rem;
   background-color: rgb(250, 250, 250);
   /* background-image: linear-gradient(to right top, #808080, #979797, #aeaeae, #c6c6c6, #dedede, #dedede, #dedede, #dedede, #c6c6c6, #aeaeae, #979797, #808080); */
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   width: 100%;
   height: 30rem;
 }
@@ -171,13 +172,14 @@ button {
 
 .listMessages p,
 .onSelectStyle {
-  background-color: rgb(223, 222, 222);
-  border-radius: 20px;
+  background-color: rgb(232, 231, 231);
+  border-radius: 10px;
   padding: 1rem;
   cursor: default;
   max-width: 55%;
   /* word-wrap: break-word; */
   margin: 1rem;
+  transition: transform 0.9s ease-in-out;
 }
 
 .onSelectStyle {
@@ -316,12 +318,6 @@ button {
 
 .hide-initial-page {
   transform: translateY(-100%);
-}
-
-.hide-left {
-  /* transform: translateX(-200%); */
-  opacity: 0;
-  pointer-events: none;
 }
 
 .listMessages .upperMessage::before {

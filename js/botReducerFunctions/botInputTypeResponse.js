@@ -1,6 +1,8 @@
 export default function ({ context, target, event }) {
     event.preventDefault()
-    target.parentElement.remove()
+    const { deleteSingleEntry } = this._elementMethods()
+    deleteSingleEntry({}, target.parentElement)
+
     const selectedQuestion = target.textContent
 
     context().question(selectedQuestion, true, {

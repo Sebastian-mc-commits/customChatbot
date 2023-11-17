@@ -1,4 +1,4 @@
-export default async function ({ event, target, utils }) {
+export default async function ({ event, target, utils, context }) {
     event.preventDefault()
     if (this._isOnSelectedTypePressed) return
     else if (!this._isPoliciesAccepted) {
@@ -26,9 +26,9 @@ export default async function ({ event, target, utils }) {
         normalBotResponse,
         reloadBotResponse,
     } = this._getMessageElementHTML()
-    onSelectedType().remove();
 
-
+    const { deleteSingleEntry } = this._elementMethods()
+    deleteSingleEntry({}, onSelectedType())
     const {
         body
     } = this._store.find(({
@@ -40,13 +40,11 @@ export default async function ({ event, target, utils }) {
         id
     } = body.find(el => this._getMatchId(el.id, targetId))
 
-    const insertBotMessage = (value) => this._listMessages.insertAdjacentHTML("beforeend", value);
-
-    [
+    this.insertInContent(
         reloadBotResponse(`Has seleccionado: ${target.textContent}`, "setElementBack"),
         ...[!!defaultMessage ? normalBotResponse(defaultMessage) : []],
-        utils().displayMoreOptionsHTML(id)
-    ].forEach(insertBotMessage)
+        ...[this._TYPES.GLOBAL.DISPLAY_OPTIONS ? utils().displayMoreOptionsHTML(id) : []]
+    )
 
     this._resetPriorities()
     this._chatBotTypeSelected = {
@@ -64,4 +62,8 @@ export default async function ({ event, target, utils }) {
 
     this.scrollIntoView()
     this._isOnSelectedTypePressed = true
+
+    if (this._TYPES.GLOBAL.UNWRAP_CONTENT) {
+        context().onHandleDisplayOptions(id)
+    }
 }

@@ -3,7 +3,7 @@ export default async function ({ target, context, utils }, userInputValue, useSh
     console.log(this._isPriorityOfTypesSatisfied())
     if (!this._isPriorityOfTypesSatisfied()) return
     else if (!userInputValue.length && useShake) {
-        this._shakeElement(target, {
+        this._shakeElement(this._onChangeText, {
             onShakeCallback: target => target.disabled = true,
             onAfterShakeCallback: target => target.disabled = false
         })
@@ -12,12 +12,6 @@ export default async function ({ target, context, utils }, userInputValue, useSh
     const { value, name, redirect, methodName } = this._getHighestPriorityTypeValue()
 
     userInputValue = userInputValue.trim()
-    if (redirect) {
-        return context()[methodName]({
-            userInputValue,
-            ...params
-        })
-    }
 
     const {
         user,
@@ -25,9 +19,16 @@ export default async function ({ target, context, utils }, userInputValue, useSh
 
     this._listMessages.insertAdjacentHTML("beforeend", user(userInputValue));
 
-    if ("value" in target) target.value = "";
+    this._onChangeText.value = ""
 
     this.countMessageIteration += 1
+
+    if (redirect) {
+        return context()[methodName]({
+            userInputValue,
+            ...params
+        })
+    }
 
     const { isResponded } = await context().botResponse({
         isByFetch: true,
@@ -56,8 +57,7 @@ export default async function ({ target, context, utils }, userInputValue, useSh
         await context().botResponse({
             isByFetch: false,
             input: `Lamentamos no poder responder a tus preguntas en este momento. 
-            Si lo prefieres, puedes consultar a un asesor haciendo clic en: ${utils().redirectHTML()} para 
-            obtener la información que necesitas.`,
+            Si lo prefieres, puedes consultar a un asesor haciendo clic en: ${utils().redirectHTML()}`,
             useReloadType: false,
             useDisplayOptions: true,
         })

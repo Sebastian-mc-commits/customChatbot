@@ -20,7 +20,7 @@ const bot = new Bot({
 bot.init()
 
 const initialText = `
-¡Hola! Soy ROBLEBOT, ¿En que puedo ayudarte?
+¡Hola! Soy ROBLEBOT, ¿En qué puedo ayudarte?
 `
 
 const initialBotText = document.querySelector("#useTimeOut")
@@ -36,7 +36,6 @@ initialPageElement.querySelector("button").addEventListener("click", event => {
     policiesBotElement.classList.toggle(hideLeft)
   })
 })
-
 
 const useTimeOutText = (element, text, whenClear = () => null) => {
   let iterationsPass = 0

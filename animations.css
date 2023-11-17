@@ -1,0 +1,68 @@
+.fadeOutInner {
+  animation: fadeOut-inner 0.7s ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes fadeOut-inner {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.fadeOutUp {
+  animation: fadeOut-up 0.7s ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes fadeOut-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+.fadeOutLeft {
+  animation: fadeOut-left 0.7s ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes fadeOut-left {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.fadeOutRight {
+  animation: fadeOut-right 0.7s ease-in-out;
+  overflow: hidden;
+}
+
+@keyframes fadeOut-right {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.hide-left {
+  opacity: 0.3;
+  pointer-events: none;
+}

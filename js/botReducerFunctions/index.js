@@ -25,7 +25,6 @@ export const termsAndConditionsHandler = async function () {
       this._isPoliciesAccepted = isPoliciesAccepted
       if (isPoliciesAccepted) {
         this._loadContent()
-        this._listMessages.innerHTML = ""
       }
       newWin.close()
     }

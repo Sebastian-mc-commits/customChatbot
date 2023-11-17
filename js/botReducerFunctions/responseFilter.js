@@ -66,7 +66,7 @@ export default async function ({ context }, idField, {
       getResponseTitleById
     } = this._apis()
     const { response: { response: data } } = await getResponseTitleById(responseTitleId)
-    const { title, endTitle, id } = data
+    const { title, id } = data
     value = normalBotResponse(title)
 
     this._chatBotTypeSelected[this._TYPES.USER_INPUT_REQUIRED] = {
@@ -74,6 +74,10 @@ export default async function ({ context }, idField, {
       value: id,
       priority: 10
     }
+
+    const { deleteSingleEntry } = this._elementMethods()
+    const children = Array.from(this._listMessages.children)
+    await deleteSingleEntry({}, ...children.slice(0, -1))
 
     type = this._TYPES.USER_INPUT_REQUIRED
   }
@@ -89,6 +93,7 @@ export default async function ({ context }, idField, {
       ...this._chatBotTypeSelected.types,
       priority: 10
     }
+
     type = this._TYPES.RESPONSE
   }
 

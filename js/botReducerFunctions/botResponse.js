@@ -15,7 +15,10 @@ export default async function ({ utils, context }, {
   const { value: id, name } = this._getHighestPriorityTypeValue()
 
   if (!id) {
-    botResponse = inCaseOfError()
+    const {
+      normalBotResponse
+    } = this._getMessageElementHTML()
+    botResponse = normalBotResponse(inCaseOfError())
     isResponded = false
   }
   else if (isByFetch) {
@@ -54,18 +57,21 @@ export default async function ({ utils, context }, {
   }
 
   else {
-    botResponse = await context().responseFilter(null, {
+    const { value } = await context().responseFilter(null, {
       responseContent: input,
       isHTML: 0,
       isMainTree: 0,
       useReloadType,
-    }).value
+    })
+
+    botResponse = value
+
   }
 
 
   if (isResponded || respondInCaseOfError) {
     this._listMessages.insertAdjacentHTML("beforeend", botResponse);
-    if (useDisplayOptions) {
+    if (useDisplayOptions && this._TYPES.GLOBAL.DISPLAY_OPTIONS) {
       const { value, name } = this._getHighestPriorityTypeValue()
       const method = this._getAssociatedMethodByType(name)
       this._listMessages.insertAdjacentHTML("beforeend", utils().displayMoreOptionsHTML(value, {

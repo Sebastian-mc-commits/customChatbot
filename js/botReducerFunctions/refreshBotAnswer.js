@@ -3,10 +3,7 @@ export default function ({ target, context }) {
 
   const onRefreshReducer = {
     setElementBack: async () => {
-      await this._contentLoaded()
-      this.toggleViewChangeText({
-        enable: false
-      })
+      await this._loadContent()
     }
   }
 

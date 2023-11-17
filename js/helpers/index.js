@@ -1,1 +1,1 @@
-export { getIdField, useForEach, validate } from "./utilities.js"
+export { getIdField, useForEach, validate, getRandomValue } from "./utilities.js"

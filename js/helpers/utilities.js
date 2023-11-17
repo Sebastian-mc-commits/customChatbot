@@ -36,3 +36,20 @@ export const validate = (val) => {
 
   return isValid
 }
+
+export const getRandomValue = (value, inCaseOfObjectGetKeys = false) => {
+  const { random, floor } = Math
+  let newValue = null
+
+  if (Array.isArray(value)) {
+    newValue = value[floor(random() * value.length)]
+  }
+
+  else if (typeof value === "object") {
+
+    const newArray = Array.from(Object?.[inCaseOfObjectGetKeys ? "keys" : "values"](value))
+    newValue = newArray[floor(random() * newArray.length)]
+  }
+
+  return newValue
+}

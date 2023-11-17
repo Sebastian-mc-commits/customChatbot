@@ -1,6 +1,10 @@
-export default async function ({ event, target }) {
-    event.preventDefault()
-    const id = target.dataset.id
+export default async function ({ event, target }, {
+    useId = null
+} = {
+        useId: null
+    }) {
+    event?.preventDefault()
+    const id = target?.dataset?.id || useId
 
     const {
         onSelectedStyle,
@@ -19,7 +23,7 @@ export default async function ({ event, target }) {
 
     const html = onSelectedStyle(iterateBy(responses, buttonMessage))
 
-    this._insertBotMessage(html)
+    this.insertInContent(html)
     this.scrollIntoView()
 }
 
