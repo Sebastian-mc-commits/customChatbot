@@ -747,3 +747,15 @@ VALUES
 		3,
 		null
 	);
+
+UPDATE
+	response
+SET
+	responseTitleId = 4
+WHERE
+	responseContent LIKE "%colores%"
+	OR responseContent LIKE "%Medidas incorrectas%"
+	OR responseContent LIKE "%Fallas en el%"
+	OR responseContent LIKE "%diseño inadecuado%"
+	OR responseContent LIKE "%nunca llego el%"
+	OR responseContent LIKE "%No realizo el soporte%";
